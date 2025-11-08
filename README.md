@@ -84,6 +84,18 @@ I --> J[Aggregate Predictions<br/>final_test_prediction_6-7.py → 6-7.json]
 
 ---
 
+
+---
+
+## 🔗 Deepfake Detection Flowcharts
+
+For a detailed visual representation of the entire pipeline — including dataset preparation, enhancement, model training, and prediction stages — please see the dedicated flowchart document:
+
+➡️ [View Full Flowcharts (Mermaid + PNG)](./DEEPFAKE_PIPELINE_FLOWCHARTS.md)
+
+You can view it directly on GitHub for live Mermaid rendering or download it for offline reference.
+
+---
 ## ⚙️ Model Details
 
 | Parameter | Configuration |
@@ -224,177 +236,6 @@ Deepfake Detection • Computer Vision • AI Research
 
 ---
 
----
-
-## 🧩 Deepfake Detection Pipeline — Visual Overview
-
-Below is the final, GitHub-renderable version of the Deepfake Detection pipeline flowchart.
-
-```mermaid
-flowchart TD
-
-Start([Start]) --> A[Raw Dataset: real_cifake_images and fake_cifake_images]
-A --> B[Ground Truth JSONs: real_cifake_preds.json and fake_cifake_preds.json]
-B --> C[Combine datasets using combined_dataset.py]
-C --> D1[Enhancement 1: realesrgan_with_extra.py with RealESRGAN_x4plus.pth]
-C --> D2[Enhancement 2: now_enhanced.py (5 augmented variants)]
-D1 --> E[Merge enhanced folders using merge_datasets_final.py]
-D2 --> E
-E --> F[Train model using model_training.py with EfficientNetB0]
-F --> G[Save model as 1-1part_model.pth]
-G --> H[Prepare and enhance test dataset]
-H --> I[Run inference using test_json.py]
-I --> J[Aggregate predictions with final_test_prediction_6-7.py]
-J --> K[Final output file: 6-7.json]
-K --> End([End])
-```
-
-### 🖼️ Visual Pipeline (Image Backup)
-If the diagram above fails to render, here’s the PNG version for reference:
-
-![Deepfake Detection Pipeline](364a24c2-66c7-4d13-ab87-de4fd843be56.png)
-
----
-
-The following diagram shows the complete Deepfake Detection pipeline in a simple, GitHub-renderable flow.
-
-```mermaid
-flowchart TD
-
-A1([Start]) --> A2[Raw Dataset: real and fake CIFAKE images]
-A2 --> A3[Ground Truth JSONs: real_cifake_preds and fake_cifake_preds]
-A3 --> A4[Combine Datasets using combined_dataset.py]
-
-A4 --> B1[Enhancement 1 using realesrgan_with_extra.py (clean images)]
-A4 --> B2[Enhancement 2 using now_enhanced.py (five augmented variants)]
-B1 --> C1[Merge Enhanced Folders using merge_datasets_final.py]
-B2 --> C1
-
-C1 --> D1[Train EfficientNetB0 using model_training.py]
-D1 --> D2[Save Model as 1-1part_model.pth]
-
-D2 --> E1[Test Data Preparation]
-E1 --> E2[Enhance Test Data using same scripts]
-E2 --> E3[Merge Enhanced Test Data]
-E3 --> E4[Run Inference with test_json.py]
-E4 --> F1[Aggregate Predictions with final_test_prediction_6-7.py]
-F1 --> F2[Final Output: 6-7.json]
-F2 --> G1([End])
-
-classDef data fill:#D6EAF8,stroke:#1B4F72,color:#1B2631,font-weight:bold
-classDef process fill:#D5F5E3,stroke:#145A32,color:#0B5345,font-weight:bold
-classDef model fill:#FADBD8,stroke:#7B241C,color:#641E16,font-weight:bold
-classDef output fill:#FCF3CF,stroke:#7D6608,color:#7E5109,font-weight:bold
-classDef end fill:#D2B4DE,stroke:#4A235A,color:#512E5F,font-weight:bold
-
-class A2,A3,A4,E1 data
-class B1,B2,C1,E2,E3 process
-class D1,D2 model
-class E4,F1,F2 output
-class A1,G1 end
-```
-
-### 🖼️ Visual Pipeline (Image Backup)
-If Mermaid doesn’t render, here’s a PNG version of the same pipeline:
-
-![Deepfake Detection Pipeline](364a24c2-66c7-4d13-ab87-de4fd843be56.png)
-
----
-
-Below is the full end-to-end workflow of the Deepfake Detection System, showing how data flows from raw CIFAKE images to the final JSON prediction output.
-
-### 📊 Mermaid Flowchart (GitHub-Compatible)
-```mermaid
-flowchart TD
-
-A1([Start]) --> A2[Raw Dataset: real_cifake_images + fake_cifake_images]
-A2 --> A3[Ground Truth JSONs: real_cifake_preds.json + fake_cifake_preds.json]
-A3 --> A4[Combine Datasets (combined_dataset.py) -> combined_dataset_withreal_and_fake_ground_truth]
-
-A4 --> B1[Enhancement 1 (Clean) using .._enhanced_realesrgan_with_extra.py and RealESRGAN_x4plus.pth + CLAHE + Denoise]
-A4 --> B2[Enhancement 2 (Augmented) using .._now_enhanced.py with rotations, flips, brightness variants]
-
-B1 --> C1[Merge Enhanced Datasets (merge_datasets_final.py) -> sorted_dataset/real + fake]
-B2 --> C1
-
-C1 --> D1[Model Training (model_training.py) -> EfficientNet-B0 fine-tuning (Layers 6 and 7 trainable)]
-D1 --> D2[Saved Model (1-1part_model.pth)]
-
-D2 --> E1[Test Dataset (test folder)]
-E1 --> E2[Enhance Test Dataset using both enhancement scripts]
-E2 --> E3[Merge Test Datasets (merge_datasets_final.py)]
-E3 --> E4[Inference (test_json.py) -> teamname_all_variants_predictions.json]
-E4 --> F1[Aggregate Predictions (final_test_prediction_6-7.py)]
-F1 --> F2[Final Output: 6-7.json]
-
-F2 --> G1([End])
-
-classDef data fill:#D6EAF8,stroke:#1B4F72,color:#1B2631,font-weight:bold
-classDef process fill:#D5F5E3,stroke:#145A32,color:#0B5345,font-weight:bold
-classDef model fill:#FADBD8,stroke:#7B241C,color:#641E16,font-weight:bold
-classDef output fill:#FCF3CF,stroke:#7D6608,color:#7E5109,font-weight:bold
-classDef end fill:#D2B4DE,stroke:#4A235A,color:#512E5F,font-weight:bold
-
-class A2,A3,A4,E1 data
-class B1,B2,C1,E2,E3 process
-class D1,D2 model
-class E4,F1,F2 output
-class A1,G1 end
-```
-
----
-
-### 🖼️ Visual Pipeline Diagram (PNG Backup)
-If GitHub rendering fails or you prefer an image view, here’s the same flow as a PNG diagram:
-
-![Deepfake Detection Pipeline](364a24c2-66c7-4d13-ab87-de4fd843be56.png)
-
----
-
-The following flowchart illustrates the complete end-to-end workflow of this project — from dataset preparation and enhancement to model training and prediction aggregation.
-
-```mermaid
-flowchart TD
-
-%% DATASET
-A1([Start]) --> A2[📦 Raw Dataset<br>real_cifake_images + fake_cifake_images]
-A2 --> A3[📑 Ground Truth JSONs<br>real_cifake_preds.json + fake_cifake_preds.json]
-A3 --> A4[🗂️ Combine Datasets<br>combined_dataset.py<br>→ combined_dataset_withreal_and_fake_ground_truth/real + fake]
-
-%% ENHANCEMENT STAGE
-A4 --> B1[🔍 Enhancement 1<br>.._enhanced_realesrgan_with_extra.py<br>→ RealESRGAN_x4plus.pth + CLAHE + Sharpen + Denoise<br>Generates 1 enhanced image per input]
-A4 --> B2[🎨 Enhancement 2<br>.._now_enhanced.py<br>→ RealESRGAN_x4plus.pth + Augmentations<br>Generates 5 enhanced variants per input]
-B1 --> C1[🧩 Merge Enhanced Folders<br>merge_datasets_final.py<br>→ sorted_dataset/real + fake]
-B2 --> C1
-
-%% TRAINING
-C1 --> D1[🧠 Model Training<br>model_training.py<br>EfficientNet-B0 (Layers 6 & 7 trainable)]
-D1 --> D2[(💾 1-1part_model.pth<br>Saved Model in /models)]
-
-%% TESTING PIPELINE
-D2 --> E1[🧾 Test Dataset<br>test/ folder (real + fake test images)]
-E1 --> E2[🧪 Enhance Test Folders<br>.._enhanced_realesrgan_with_extra.py + .._now_enhanced.py]
-E2 --> E3[🔗 Merge Test Enhancements<br>merge_datasets_final.py]
-E3 --> E4[🤖 Run Inference<br>test_json.py<br>→ teamname_all_variants_predictions.json (confidence scores)]
-
-%% AGGREGATION
-E4 --> F1[📊 Aggregate Results<br>final_test_prediction_6-7.py<br>Average confidence per image]
-F1 --> F2[✅ Final Output<br>6-7.json<br>Index + Prediction (real/fake)]
-F2 --> G1([🏁 End])
-
-%% STYLING
-classDef data fill:#D6EAF8,stroke:#1B4F72,color:#1B2631,font-weight:bold
-classDef process fill:#D5F5E3,stroke:#145A32,color:#0B5345,font-weight:bold
-classDef model fill:#FADBD8,stroke:#7B241C,color:#641E16,font-weight:bold
-classDef output fill:#FCF3CF,stroke:#7D6608,color:#7E5109,font-weight:bold
-classDef end fill:#D2B4DE,stroke:#4A235A,color:#512E5F,font-weight:bold
-
-class A2,A3,A4,E1 data
-class B1,B2,C1,E2,E3 process
-class D1,D2 model
-class E4,F1,F2 output
-class A1,G1 end
-```
 ---
 
 ## 🎓 Dataset Information
