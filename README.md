@@ -222,7 +222,54 @@ Deepfake Detection • Computer Vision • AI Research
 
 ---
 
+---
+
 ## 🧩 Deepfake Detection Pipeline — Visual Overview
+
+The following diagram shows the complete Deepfake Detection pipeline in a simple, GitHub-renderable flow.
+
+```mermaid
+flowchart TD
+
+A1([Start]) --> A2[Raw Dataset: real and fake CIFAKE images]
+A2 --> A3[Ground Truth JSONs: real_cifake_preds and fake_cifake_preds]
+A3 --> A4[Combine Datasets using combined_dataset.py]
+
+A4 --> B1[Enhancement 1 using realesrgan_with_extra.py (clean images)]
+A4 --> B2[Enhancement 2 using now_enhanced.py (five augmented variants)]
+B1 --> C1[Merge Enhanced Folders using merge_datasets_final.py]
+B2 --> C1
+
+C1 --> D1[Train EfficientNetB0 using model_training.py]
+D1 --> D2[Save Model as 1-1part_model.pth]
+
+D2 --> E1[Test Data Preparation]
+E1 --> E2[Enhance Test Data using same scripts]
+E2 --> E3[Merge Enhanced Test Data]
+E3 --> E4[Run Inference with test_json.py]
+E4 --> F1[Aggregate Predictions with final_test_prediction_6-7.py]
+F1 --> F2[Final Output: 6-7.json]
+F2 --> G1([End])
+
+classDef data fill:#D6EAF8,stroke:#1B4F72,color:#1B2631,font-weight:bold
+classDef process fill:#D5F5E3,stroke:#145A32,color:#0B5345,font-weight:bold
+classDef model fill:#FADBD8,stroke:#7B241C,color:#641E16,font-weight:bold
+classDef output fill:#FCF3CF,stroke:#7D6608,color:#7E5109,font-weight:bold
+classDef end fill:#D2B4DE,stroke:#4A235A,color:#512E5F,font-weight:bold
+
+class A2,A3,A4,E1 data
+class B1,B2,C1,E2,E3 process
+class D1,D2 model
+class E4,F1,F2 output
+class A1,G1 end
+```
+
+### 🖼️ Visual Pipeline (Image Backup)
+If Mermaid doesn’t render, here’s a PNG version of the same pipeline:
+
+![Deepfake Detection Pipeline](364a24c2-66c7-4d13-ab87-de4fd843be56.png)
+
+---
 
 Below is the full end-to-end workflow of the Deepfake Detection System, showing how data flows from raw CIFAKE images to the final JSON prediction output.
 
