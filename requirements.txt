@@ -1,0 +1,6 @@
+opencv-python
+numpy
+tqdm
+realesrgan
+basicsr
+# Note: torch is intentionally NOT pinned here. Install torch separately below (CPU or CUDA build).
