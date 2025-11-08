@@ -220,7 +220,59 @@ Deepfake Detection • Computer Vision • AI Research
 
 ---
 
+---
+
 ## 🧩 Deepfake Detection Pipeline — Visual Overview
+
+Below is the full end-to-end workflow of the Deepfake Detection System, showing how data flows from raw CIFAKE images to the final JSON prediction output.
+
+### 📊 Mermaid Flowchart (GitHub-Compatible)
+```mermaid
+flowchart TD
+
+A1([Start]) --> A2[Raw Dataset: real_cifake_images + fake_cifake_images]
+A2 --> A3[Ground Truth JSONs: real_cifake_preds.json + fake_cifake_preds.json]
+A3 --> A4[Combine Datasets (combined_dataset.py) -> combined_dataset_withreal_and_fake_ground_truth]
+
+A4 --> B1[Enhancement 1 (Clean) using .._enhanced_realesrgan_with_extra.py and RealESRGAN_x4plus.pth + CLAHE + Denoise]
+A4 --> B2[Enhancement 2 (Augmented) using .._now_enhanced.py with rotations, flips, brightness variants]
+
+B1 --> C1[Merge Enhanced Datasets (merge_datasets_final.py) -> sorted_dataset/real + fake]
+B2 --> C1
+
+C1 --> D1[Model Training (model_training.py) -> EfficientNet-B0 fine-tuning (Layers 6 and 7 trainable)]
+D1 --> D2[Saved Model (1-1part_model.pth)]
+
+D2 --> E1[Test Dataset (test folder)]
+E1 --> E2[Enhance Test Dataset using both enhancement scripts]
+E2 --> E3[Merge Test Datasets (merge_datasets_final.py)]
+E3 --> E4[Inference (test_json.py) -> teamname_all_variants_predictions.json]
+E4 --> F1[Aggregate Predictions (final_test_prediction_6-7.py)]
+F1 --> F2[Final Output: 6-7.json]
+
+F2 --> G1([End])
+
+classDef data fill:#D6EAF8,stroke:#1B4F72,color:#1B2631,font-weight:bold
+classDef process fill:#D5F5E3,stroke:#145A32,color:#0B5345,font-weight:bold
+classDef model fill:#FADBD8,stroke:#7B241C,color:#641E16,font-weight:bold
+classDef output fill:#FCF3CF,stroke:#7D6608,color:#7E5109,font-weight:bold
+classDef end fill:#D2B4DE,stroke:#4A235A,color:#512E5F,font-weight:bold
+
+class A2,A3,A4,E1 data
+class B1,B2,C1,E2,E3 process
+class D1,D2 model
+class E4,F1,F2 output
+class A1,G1 end
+```
+
+---
+
+### 🖼️ Visual Pipeline Diagram (PNG Backup)
+If GitHub rendering fails or you prefer an image view, here’s the same flow as a PNG diagram:
+
+![Deepfake Detection Pipeline](364a24c2-66c7-4d13-ab87-de4fd843be56.png)
+
+---
 
 The following flowchart illustrates the complete end-to-end workflow of this project — from dataset preparation and enhancement to model training and prediction aggregation.
 
