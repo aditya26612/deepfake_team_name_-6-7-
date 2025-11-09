@@ -6,7 +6,8 @@
 > *From pixels to truth — detecting deception one frame at a time.*
 
 ---
-
+> model folder and images folders{ preprocessed } are inside images.zip
+> 
 ## 🧭 Project Architecture Overview
 
 ![Deepfake Detection Architecture](architecture.png)
