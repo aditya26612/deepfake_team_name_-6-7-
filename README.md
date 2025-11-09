@@ -1,16 +1,15 @@
-
-# 🧠 Deepfake Detection System — End‑to‑End (Open Source)
+# 🧠 Deepfake Detection System — End-to-End (Open Source)
 
 **Author:** Aditya Singh Senger  
 **Goal:** Detect *real vs. fake* images using a robust pipeline that cleans raw CIFAKE data, enhances images with a **pre-trained Real-ESRGAN model (`RealESRGAN_x4plus.pth`)**, trains an EfficientNet-B0 classifier, and aggregates predictions over multiple enhanced variants.
 
-> From pixels to truth — detecting deception one frame at a time.
+> *From pixels to truth — detecting deception one frame at a time.*
 
 ---
 
 ## 🧭 Project Architecture Overview
 
-![Deepfake Pipeline Diagram](fbe99570-cb8f-4048-bdef-445c3f635487.png)
+![Deepfake Detection Architecture](architecture.png)
 
 ---
 
@@ -65,47 +64,16 @@ Deepfake-Detection/
 
 ---
 
-## 🧠 End‑to‑End Pipeline Flow
-
-```mermaid
-flowchart TD
-A[Raw CIFAKE Data<br/>real_cifake_images + fake_cifake_images] --> B[Ground Truth Separation<br/>real_cifake_preds.json + fake_cifake_preds.json]
-B --> C[Combine Datasets<br/>combined_dataset.py → combined_dataset_withreal_and_fake_ground_truth/]
-C --> D1[Enhancement 1× (Clean)<br/>.._enhanced_realesrgan_with_extra.py<br/>Using pre-trained RealESRGAN_x4plus.pth]
-C --> D2[Enhancement 5× (Augmented)<br/>.._now_enhanced.py<br/>Rotation, Flip, Brightness]
-D1 --> E[Merge Enhanced Data<br/>merge_datasets_final.py → sorted_dataset/real + fake]
-D2 --> E
-E --> F[Train EfficientNet‑B0<br/>model_training.py<br/>Frozen backbone + fine-tuned classifier]
-F --> G[Save Trained Model<br/>models/best_model_efficientnet_b0.pth]
-G --> H[Prepare Test Set (same enhancements)]
-H --> I[Inference<br/>test_json.py → teamname_all_variants_predictions.json]
-I --> J[Aggregate Predictions<br/>final_test_prediction_6-7.py → 6-7.json]
-```
-
----
-
-
----
-
-## 🔗 Deepfake Detection Flowcharts
-
-For a detailed visual representation of the entire pipeline — including dataset preparation, enhancement, model training, and prediction stages — please see the dedicated flowchart document:
-
-➡️ [View Full Flowcharts (Mermaid + PNG)](./DEEPFAKE_PIPELINE_FLOWCHARTS.md)
-
-You can view it directly on GitHub for live Mermaid rendering or download it for offline reference.
-
----
 ## ⚙️ Model Details
 
 | Parameter | Configuration |
 |------------|----------------|
-| **Backbone** | EfficientNet‑B0 (Pre-trained on ImageNet) |
-| **Enhancer** | Real‑ESRGAN (`RealESRGAN_x4plus.pth`) |
-| **Fine‑tuning** | Frozen backbone; classifier head trained |
+| **Backbone** | EfficientNet-B0 (Pre-trained on ImageNet) |
+| **Enhancer** | Real-ESRGAN (`RealESRGAN_x4plus.pth`) |
+| **Fine-tuning** | Frozen backbone; classifier head trained |
 | **Split** | Ordered 85% / 15% (variant-consistent) |
 | **Loss Function** | BCEWithLogitsLoss |
-| **Optimizer** | AdamW (LR=1e‑4, weight_decay=1e‑5) |
+| **Optimizer** | AdamW (LR=1e-4, weight_decay=1e-5) |
 | **Scheduler** | ReduceLROnPlateau (factor=0.5, patience=3) |
 | **Batch Size** | 32 |
 | **Image Size** | 224×224 |
@@ -116,7 +84,7 @@ You can view it directly on GitHub for live Mermaid rendering or download it for
 
 ## 🧩 Reproducible Steps
 
-### 1️⃣ Create Ground‑Truth Dataset
+### 1️⃣ Create Ground-Truth Dataset
 ```bash
 python combined_dataset.py
 ```
@@ -216,28 +184,6 @@ git push -u origin main
 
 ---
 
-## 🧑‍💻 Author
-
-**Aditya Singh Senger**  
-Deepfake Detection • Computer Vision • AI Research  
-📧 gokusengar666@gmail.com
-🔗 [GitHub Repository](https://github.com/aditya26612/deepfake_team_name_-6-7-)
-
----
-
-
-
----
-
-
----
-
----
-
----
-
----
-
 ## 🎓 Dataset Information
 
 The dataset used in this project was provided by the **Deepfake Hackathon organized by IIIT Bengaluru**.  
@@ -251,13 +197,13 @@ These were used to create structured folders via `combined_dataset.py` for downs
 This script trains the **EfficientNet-B0** model on the enhanced CIFAKE dataset with frozen lower layers, fine-tuned top blocks (6 & 7), and a custom binary classifier head.
 
 ### 🔧 Key Features
-- **Automatic device selection:** Uses CUDA if available, else CPU.
-- **No training augmentation:** Works on clean enhanced images only.
-- **Ordered 85/15 split:** Keeps image variants grouped consistently.
-- **Partial fine-tuning:** Only EfficientNet layers **6 & 7** are trainable.
-- **Optimizer:** AdamW with weight decay (1e-4).
-- **Scheduler:** ReduceLROnPlateau (based on validation accuracy).
-- **Loss:** BCEWithLogitsLoss.
+- **Automatic device selection:** Uses CUDA if available, else CPU.  
+- **No training augmentation:** Works on clean enhanced images only.  
+- **Ordered 85/15 split:** Keeps image variants grouped consistently.  
+- **Partial fine-tuning:** Only EfficientNet layers **6 & 7** are trainable.  
+- **Optimizer:** AdamW with weight decay (1e-4).  
+- **Scheduler:** ReduceLROnPlateau (based on validation accuracy).  
+- **Loss:** BCEWithLogitsLoss.  
 
 ### 🧩 Training Process
 
@@ -315,7 +261,7 @@ for e in range(EPOCHS):
 
 | Component | Purpose |
 |------------|----------|
-| EfficientNet‑B0 | Lightweight, accurate architecture pretrained on ImageNet |
+| EfficientNet-B0 | Lightweight, accurate architecture pretrained on ImageNet |
 | Frozen Layers | Preserve low-level general features |
 | Trainable Layers (6 & 7) | Learn deepfake-specific textures and semantics |
 | AdamW + ReduceLROnPlateau | Stable, adaptive optimization |
@@ -329,6 +275,15 @@ and used later for prediction by `test_json.py` and aggregation by `final_test_p
 
 ---
 
+## 🧑‍💻 Author
+
+**Aditya Singh Senger**  
+Deepfake Detection • Computer Vision • AI Research  
+📧 gokusengar666@gmail.com  
+🔗 [GitHub Repository](https://github.com/aditya26612/deepfake_team_name_-6-7-)
+
+---
+
 ## 🪪 License
 
 **MIT License** — Free to use, modify, and distribute with attribution.
@@ -337,7 +292,7 @@ and used later for prediction by `test_json.py` and aggregation by `final_test_p
 
 ## 🙏 Acknowledgments
 
-- **Real‑ESRGAN** team for pre-trained `RealESRGAN_x4plus.pth` super-resolution model.  
+- **Real-ESRGAN** team for pre-trained `RealESRGAN_x4plus.pth` super-resolution model.  
 - **PyTorch** for model training framework.  
 - **CIFAKE Dataset** authors for the benchmark dataset.  
 
